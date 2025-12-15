@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false, 
+  "required": ["assignment_title", "deadline", "mini_tasks"],
+  "properties": {
+    "assignment_title": { "type": "string" },
+    "deadline": { "type": "string" },
+    "mini_tasks": {
+      "type": "array",
+      "minItems": 5,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["task", "estimated_minutes", "due_by"],
+        "properties": {
+          "task": { "type": "string" },
+          "estimated_minutes": { "type": "integer", "minimum": 10 },
+          "due_by": { "type": "string" }
+        }
+      }
+    }
+  }
+}
