@@ -16,6 +16,7 @@ The script:
 - Generates a structured list of mini tasks
 - Limits each task to at most 60 minutes
 - Outputs strictly validated JSON using a JSON Schema
+- Saves the generated task plan to a local `plan.json` file (ignored by git)
 - Prints a clean, readable task plan in the terminal
 
 ## Example output
@@ -39,6 +40,7 @@ Project-Winter/
 ├── plan.py
 ├── schema.json
 ├── input.pdf
+├── plan.json        # generated output (not committed)
 ├── requirements.txt
 └── .env
 
@@ -146,6 +148,7 @@ OPENAI_API_KEY=your_api_key_here
 ```
 
 3. Add your assignment PDF as `input.pdf`.
+
 
 ---
 
