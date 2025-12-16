@@ -156,3 +156,7 @@ for task in data['mini_tasks']:
     print("-" * len(task["task"]))
     print(f"    Estimated Time: {task['estimated_minutes']} minutes")
     print(f"    Due by: {task['due_by']}\n")
+
+
+with open("plan.json", "w") as f:
+    json.dump(data, f, indent=2)
