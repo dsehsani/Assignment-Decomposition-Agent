@@ -2,6 +2,7 @@ from openai import OpenAI
 from dotenv import load_dotenv
 import json
 import os
+import time 
 
 # load enviornment 
 load_dotenv()
@@ -29,6 +30,9 @@ except Exception as e:
 # Grab Deadline
 deadline = input("Enter deadline for assignment (YYYY-MM-DD): ").strip()
 
+# grab current time
+current_date = time.strftime("%Y-%m-%d")
+
 if not deadline:
     raise ValueError("Deadline cannot be empty")
 
@@ -36,10 +40,12 @@ response = client.responses.create(
     model="gpt-4.1-mini",
     input=[
         {
+            # what the system must behave as
             "role" : "system",
             "content" : "You are an assignment decomposition agent."
         },
         {
+            # the task to accomplish/respond to 
             "role": "user",
             "content" : [
                 {
@@ -49,7 +55,7 @@ response = client.responses.create(
                         Use the provided deadline to pace the work.
                         Return ONLY valid JSON that matches the schema.
 
-                        Deadline: {deadline}
+                        The duration of assignment is from: Today: {current_date} to Deadline: {deadline}. Limit task to only 60 minutes a piece max.
                     """
                 },
                 {
@@ -69,12 +75,15 @@ response = client.responses.create(
     }
 )
 
-# print ouput
-print(response.output_text)
+# parse output 
+data = json.loads(response.output_text)
 
+print(f"Assignment: {data['assignment_title']}")
+print(f"Deadline: {data['deadline']}\n")
 
-
-
-
-
+for task in data['mini_tasks']:
+    print(f"{task['task']}")
+    print("-" * len(task["task"]))
+    print(f"    Estimated Time: {task['estimated_minutes']} minutes")
+    print(f"    Due by: {task['due_by']}\n")
 
